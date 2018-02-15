@@ -25,7 +25,7 @@ import models.Mensagem;
 import models.Utilizador;
 
 /**
- *
+ * Interface responsavél pela 
  * @author Fábio Rêgo
  */
 public class BlogSocialMainFrame extends javax.swing.JFrame {
@@ -458,25 +458,25 @@ public class BlogSocialMainFrame extends javax.swing.JFrame {
 
     private void addComentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComentActionPerformed
         // TODO add your handling code here:
-//        int row = tableofNews.getSelectedRow(); 
-//        tableofNews.getValueAt(row, 1).toString();
-//        
-//         tableofNews.addMouseListener(new MouseAdapter(){
-//            
-//            public void mouseClicked(MouseEvent e) {  
-//                if (e.getClickCount() == 1) {   
-//                    
-//                    
-//                    addComent.setEnabled(false);
+        int row = tableofNews.getSelectedRow(); 
+        tableofNews.getValueAt(row, 1).toString();
+        
+         tableofNews.addMouseListener(new MouseAdapter(){
+            
+            public void mouseClicked(MouseEvent e) {  
+                if (e.getClickCount() == 1) {   
+                    
+                    
+                    addComent.setEnabled(false);
 //                    buttontoPublicar.setVisible(true);
 //                    addComentario.setVisible(true);
-//                    } 
-//                  
-//            }  
-//        });
+                    } 
+                  
+            }  
+        });
   
         //obtem a escolha da tabela
-        addComent.setEnabled(false);
+//        addComent.setEnabled(false);
         buttontoPublicar.setVisible(true);
         addComentario.setVisible(true);
     }//GEN-LAST:event_addComentActionPerformed

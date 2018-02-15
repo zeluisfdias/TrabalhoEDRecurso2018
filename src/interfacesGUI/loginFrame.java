@@ -16,7 +16,8 @@ import javax.swing.JOptionPane;
 import models.Utilizador;
 
 /**
- *
+ * Interface responsável por permite ao Utilizador fazer o registo 
+ * e o login no Blog Social
  * @author ZeLuis
  */
 public class loginFrame extends javax.swing.JFrame {
@@ -27,7 +28,8 @@ public class loginFrame extends javax.swing.JFrame {
     private existingValues vefiringValues;
 
     /**
-     * Creates new form loginFrame
+     * Método Constructor por criar o loginFrame
+     * @throws java.io.IOException
      */
     public loginFrame() throws IOException {
         initComponents();
@@ -246,28 +248,34 @@ public class loginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método responsavél por permitir ao utlizador fazer login
+     * no Blog Social, utilizando as suas credenciais
+     * 
+     * @param evt 
+     */
     private void SignInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignInButtonActionPerformed
 
         String usernameLogin = this.usernameSignInField.getText();
         String password = this.passwordSignInField.getText();
         
-        if (usernameLogin != null && password != null) {
+        if (usernameLogin != null && password != null) { //compara se os campos estão a null
             Utilizador userTemp = new Utilizador(usernameLogin, password); //user que se encontra online
             
-            vefiringValues = new existingValues(users);
+            vefiringValues = new existingValues(users); //
             boolean vefExisting = vefiringValues.existUserWithCredentilials(userTemp);
            
-           if(vefExisting==true) {
+           if(vefExisting==true) { //verifica se o user existe
                
                 try {
-                    BlogSocialMainFrame bsmf = new BlogSocialMainFrame(userTemp);
+                    BlogSocialMainFrame bsmf = new BlogSocialMainFrame(userTemp); //inicia sessão se o utilizador exisitir
                     bsmf.setVisible(true);
                     this.setVisible(false);
                 } catch (IOException ex) {
                     Logger.getLogger(loginFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
            }else {
-               JOptionPane.showMessageDialog(this, "Não existe o utilizador", "Try Again!", JOptionPane.WARNING_MESSAGE);
+               JOptionPane.showMessageDialog(this, "Não existe o utilizador", "Try Again!", JOptionPane.WARNING_MESSAGE); //erro se o utilizador não existir
                this.usernameSignInField.setText("");
                this.passwordSignInField.setText("");
            }
@@ -283,25 +291,31 @@ public class loginFrame extends javax.swing.JFrame {
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
 
         try {
-            obterCamposRegisto();
+            obterCamposRegisto(); //obtem todos os campos do registo do utilizador
         } catch (IOException ex) {
             Logger.getLogger(loginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_SignUpButtonActionPerformed
 
+    /**
+     * Método responsável por obter todos os campos do registo de um utilizador 
+     * no Blog Social
+     * 
+     * @throws IOException 
+     */
     private void obterCamposRegisto() throws IOException {
 
-        String username = this.usernameSignUpField.getText();
+        String username = this.usernameSignUpField.getText(); 
         String password = this.passwordSignupField.getText();
         int idade = Integer.parseInt(this.ageSignupField.getText());
         String email = this.emailU.getText();
 
-        if (username != null && password != null) {
-            if (idade > 10) {
+        if (!"".equals(username) && !"".equals(password) && !"".equals(email)) { // verifica se o username, a password e o email são diferente de null
+            if (idade > 10) { // se a idade for superior a 10 adiciona um novo utilizador
                 Utilizador newUser = new Utilizador(username, password, idade, email);
                 boolean isSucess = gestFiles.escreverFicheiro(newUser, users);
              
-                if (isSucess) {
+                if (isSucess) { 
                     testeRetornoListas();
                 } else {
                     JOptionPane.showMessageDialog(null, "Nome de Utilizador já escolhido!", "Escolha um novo nome de utilizador!", JOptionPane.WARNING_MESSAGE);
@@ -345,6 +359,7 @@ public class loginFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     new loginFrame().setVisible(true);
@@ -380,12 +395,16 @@ public class loginFrame extends javax.swing.JFrame {
     private javax.swing.JTextField usernameSignUpField;
     // End of variables declaration//GEN-END:variables
 
+    
+    /**
+     * Método responsavél por retornar um ficheiro com os utilizadores
+     */
     private void testeRetornoListas() {
         File check = new File("utilizadores.txt");
 
-        if (check.exists()) {
+        if (check.exists()) { //verifica se o ficheiro existe
             users = gestFiles.lerFicheiro();
-            System.out.println("Tamanho da Lista[Utilizador]:Classe: LoginFrame: " + users.getCountElements());
+            System.out.println("Tamanho da Lista[Utilizador]:Classe: LoginFrame: " + users.getCountElements()); //numero de utilizadores existentes
         }
     }
 }
